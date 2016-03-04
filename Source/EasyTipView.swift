@@ -98,10 +98,7 @@ public extension EasyTipView {
         self.presentingView = view
         self.arrange(withinSuperview: superview)
         self.transform = CGAffineTransformMakeScale(0, 0)
-        
-        let tap = UITapGestureRecognizer(target: self, action: "handleTap")
-        self.addGestureRecognizer(tap)
-        
+      
         superview.addSubview(self)
         
         if animated {
@@ -120,7 +117,6 @@ public extension EasyTipView {
      */
     public func dismiss(withCompletion completion : (() -> ())? = nil){
         UIView.animateWithDuration(0.2, animations: { _ in
-            self.transform = CGAffineTransformMakeScale(0.3, 0.3)
             self.alpha = 0
             }) { (finished) -> Void in
                 completion?()
@@ -278,7 +274,7 @@ public class EasyTipView: UIView {
         let refViewSize = self.presentingView!.frame.size
         let refViewCenter = CGPointMake(refViewOrigin.x + refViewSize.width / 2, refViewOrigin.y + refViewSize.height / 2)
         
-        let xOrigin = refViewCenter.x - self.contentSize.width / 2
+        let xOrigin = refViewCenter.x - self.contentSize.width
         let yOrigin = position == .Bottom ? refViewOrigin.y - self.contentSize.height : refViewOrigin.y + refViewSize.height
         
         var frame = CGRectMake(xOrigin, yOrigin, self.contentSize.width, self.contentSize.height)
@@ -302,9 +298,9 @@ public class EasyTipView: UIView {
         }
         
         var arrowTipXOrigin : CGFloat
-        
+
         if CGRectGetWidth(frame) < refViewSize.width {
-            arrowTipXOrigin = self.contentSize.width / 2
+            arrowTipXOrigin = frame.origin.x + 20
         } else {
             arrowTipXOrigin = abs(frame.origin.x - refViewOrigin.x) + refViewSize.width / 2
         }
